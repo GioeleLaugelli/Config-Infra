@@ -38,7 +38,7 @@ cat <<EOF | sudo tee /etc/docker/daemon.json
   "storage-driver": "overlay2"
 }
 EOF
-sudo sed '/^ExecStart=.*/a ExecStartPost=/bin/chmod 666 /var/run/docker.sock' /usr/lib/systemd/system/docker.service
+sudo sed -i '/^ExecStart=.*/a ExecStartPost=/bin/chmod 666 /var/run/docker.sock' /usr/lib/systemd/system/docker.service
 sudo systemctl daemon-reload
 sudo systemctl start docker
 sudo systemctl enable docker --now
