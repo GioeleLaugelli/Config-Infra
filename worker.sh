@@ -41,6 +41,7 @@ EOF
 sudo systemctl start docker
 sudo systemctl enable docker --now
 sudo chmod 666 /var/run/docker.sock
+sudo usermod -a -G docker $USER
 
 echo "[task 7] kubernetes installation"
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
