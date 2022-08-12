@@ -39,10 +39,10 @@ cat <<EOF | sudo tee /etc/docker/daemon.json
   "storage-driver": "overlay2"
 }
 EOF
+sudo sed '/^ExecStart=.*/a ExecStartPost=/bin/chmod 666 /var/run/docker.sock' /usr/lib/systemd/system/docker.service
+sudo systemctl daemon-reload
 sudo systemctl start docker
 sudo systemctl enable docker --now
-###sudo chmod 666 /var/run/docker.sock
-sudo usermod -a -G docker $USER
 
 echo "[task 7] kubernetes installation"
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
