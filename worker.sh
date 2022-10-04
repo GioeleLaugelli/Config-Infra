@@ -53,7 +53,7 @@ gpgcheck=1
 repo gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
-sudo yum install -y kubectl-1.21.0-0 kubeadm-1.21.0-0 kubelet-1.21.0-0
+sudo yum install -y kubectl-1.24.0-0 kubeadm-1.24.0-0 kubelet-1.24.0-0
 sudo systemctl enable --now kubelet
 
 echo "[task 8] delete config file containerd"
