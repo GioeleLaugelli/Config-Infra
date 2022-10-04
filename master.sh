@@ -8,6 +8,7 @@ echo "[task 2] disabilitare selinux"
 sudo setenforce 0
 sudo sed -i 's/SELINUX=permissive\|SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 
+
 echo "[task 3] disabilitare firewalld"
 sudo systemctl disable firewalld --now
 sudo systemctl stop firewalld
@@ -48,12 +49,17 @@ echo "[task 7] kubernetes installation"
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=kubernetes
-baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
 enabled=1
 gpgcheck=1
-repo gpgcheck=1
-gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
 EOF
+
+sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+##sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
 sudo yum install -y kubelet=1.24.1-00 kubectl=1.24.1-00 kubeadm=1.24.1-00 --disableexcludes=kubernetes
 sudo systemctl enable --now kubelet
 
